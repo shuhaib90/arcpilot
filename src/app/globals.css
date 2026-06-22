@@ -1,0 +1,291 @@
+:root {
+  --background: #111110;          /* Deep warm black from the image */
+  --foreground: #cfcfcc;          /* Light cream off-white from the image */
+  --accent: #cc624b;              /* Terracotta/salmon accent from the image */
+  --accent-muted: #9e4331;        /* Muted terracotta */
+  --accent-light: #f8dbd4;        /* Light terracotta */
+  --surface: #171715;             /* Slightly lighter surface warm-black */
+  --surface-hover: #222220;       /* Surface hover state */
+  --surface-muted: #141413;       /* Deeper muted surface background */
+  --border: #2a2a27;              /* Darker, subtle borders */
+  --border-focus: #cc624b;        /* Accent focused border */
+  --text-muted: #80807b;          /* Monospace style muted text */
+  --success: #67a38b;             /* Muted terminal green */
+  --error: #cc5a42;               /* Terracotta error */
+  --warning: #cca24b;             /* Muted terminal yellow */
+  --sidebar-width: 260px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: ui-monospace, "Fira Code", "Fira Mono", "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.5;
+  height: 100vh;
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  color: inherit;
+  border: none;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-muted);
+}
+
+/* Layout Utilities */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Console Styling Utilities */
+.terminal-window {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--surface);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.terminal-header {
+  background-color: var(--surface-muted);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--border);
+}
+.terminal-dot.red { background-color: var(--error); opacity: 0.8; }
+.terminal-dot.yellow { background-color: var(--warning); opacity: 0.8; }
+.terminal-dot.green { background-color: var(--success); opacity: 0.8; }
+
+.terminal-body {
+  padding: 16px;
+  height: calc(100% - 33px);
+  overflow-y: auto;
+}
+
+/* Input Fields styling */
+.text-input {
+  width: 100%;
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 14px;
+  color: var(--foreground);
+  transition: border-color 0.2s;
+}
+.text-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.btn {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  user-select: none;
+}
+.btn:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--accent);
+}
+.btn-primary {
+  background-color: var(--accent-muted);
+  border-color: var(--accent);
+}
+.btn-primary:hover {
+  background-color: var(--accent);
+}
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Keyboard Hints */
+.kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  box-shadow: 0 1px 0 var(--border);
+  color: var(--text-muted);
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+
+/* Grid & Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.data-table th, .data-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table th {
+  color: var(--text-muted);
+  font-weight: normal;
+  font-size: 12px;
+}
+.data-table tr:hover td {
+  background-color: var(--surface-hover);
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100%;
+  background-color: var(--surface-muted);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.sidebar-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.sidebar-item.active a, .sidebar-item a:hover {
+  background-color: var(--surface);
+  color: var(--foreground);
+}
+
+.sidebar-item.active a {
+  border-left: 3px solid var(--accent);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: 13px;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  background-color: var(--surface);
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: var(--accent-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--foreground);
+}
+
+.sidebar-user-info {
+  overflow: hidden;
+}
+
+.sidebar-username {
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-wallet {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
