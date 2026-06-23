@@ -289,3 +289,46 @@ button, input, select, textarea {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Custom CSS Spin Animation */
+@keyframes spin-custom {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-custom {
+  animation: spin-custom 1s linear infinite;
+}
+
+/* Thinking loader dots animation */
+@keyframes thinking-dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+.thinking-loader::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  text-align: left;
+  animation: thinking-dots 1.5s infinite steps(1);
+}
+
+/* Pulsing terminal block cursor animation */
+@keyframes terminal-blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: var(--accent);
+  margin-left: 4px;
+  animation: terminal-blink 1s infinite;
+  vertical-align: middle;
+}
+

@@ -493,13 +493,13 @@ export default function ChatPage() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '480px',
-          height: '480px',
+          width: '600px',
+          height: '600px',
           backgroundImage: 'url(/logo.png)',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'contain',
-          opacity: 0.05,
+          opacity: 0.12,
           pointerEvents: 'none',
           mixBlendMode: 'color-dodge',
           zIndex: 0
@@ -661,8 +661,8 @@ export default function ChatPage() {
 
         {typing && (
           <div style={{ paddingLeft: '24px', color: 'var(--text-muted)', fontSize: '15px', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Loader2 size={12} className="animate-spin" style={{ color: 'var(--accent)' }} />
-            <span>arcpilot is thinking...</span>
+            <Loader2 size={14} className="animate-spin-custom" style={{ color: 'var(--accent)' }} />
+            <span className="thinking-loader">arcpilot is thinking</span>
           </div>
         )}
         <div ref={messagesEndRef} />
