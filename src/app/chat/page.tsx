@@ -20,6 +20,113 @@ import { walletService } from '@/services/wallet';
 import { dbService } from '@/services/db';
 import { safetyService } from '@/services/safety';
 
+const LETTER_GRIDS: Record<string, number[][]> = {
+  A: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1]
+  ],
+  R: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+    [1, 0, 1, 0],
+    [1, 0, 0, 1]
+  ],
+  C: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 1, 1, 1]
+  ],
+  P: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0]
+  ],
+  I: [
+    [1, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1]
+  ],
+  L: [
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 1, 1, 1]
+  ],
+  O: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1]
+  ],
+  T: [
+    [1, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0]
+  ],
+  ' ': [
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0]
+  ]
+};
+
+function BlockLetter({ letter }: { letter: string }) {
+  const grid = LETTER_GRIDS[letter] || LETTER_GRIDS[' '];
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+  
+  return (
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateRows: `repeat(${numRows}, 8px)`,
+      gridTemplateColumns: `repeat(${numCols}, 8px)`,
+      gap: '0px',
+      marginRight: '6px'
+    }}>
+      {grid.map((row, rIdx) => 
+        row.map((cell, cIdx) => (
+          <div 
+            key={`${rIdx}-${cIdx}`} 
+            style={{
+              width: '8px',
+              height: '8px',
+              backgroundColor: cell === 1 ? 'var(--accent)' : 'transparent',
+              border: cell === 1 ? '1px solid var(--background)' : 'none',
+              boxShadow: cell === 1 ? '0 0 0 1px var(--accent)' : 'none',
+            }}
+          />
+        ))
+      )}
+    </div>
+  );
+}
+
+function BlockText({ text }: { text: string }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+      {text.split('').map((char, idx) => (
+        <BlockLetter key={idx} letter={char.toUpperCase()} />
+      ))}
+    </div>
+  );
+}
+
 interface ChatMessage {
   id: string;
   sender: 'user' | 'assistant';
@@ -409,6 +516,12 @@ export default function ChatPage() {
                     lineHeight: '1.6'
                   }}
                 >
+                  {msg.id === 'welcome' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+                      <BlockText text="ARC" />
+                      <BlockText text="PILOT" />
+                    </div>
+                  )}
                   {msg.animate ? (
                     <TypedText 
                       text={msg.text} 
