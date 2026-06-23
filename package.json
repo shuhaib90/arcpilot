@@ -14,7 +14,10 @@
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "@emnapi/runtime": "1.11.1",
+    "@emnapi/core": "1.11.1",
+    "@emnapi/wasi-threads": "1.2.2"
   },
   "devDependencies": {
     "@types/node": "^20",
