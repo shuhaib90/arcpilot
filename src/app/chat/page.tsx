@@ -12,7 +12,8 @@ import {
   X, 
   Loader2,
   Clock,
-  Trash2
+  Trash2,
+  ExternalLink
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { aiEngine, AIResponse } from '@/services/ai';
@@ -642,15 +643,33 @@ export default function ChatPage() {
                     marginLeft: '24px',
                     display: 'flex',
                     gap: '12px',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     fontFamily: 'monospace'
                   }}>
-                    <Check size={14} style={{ color: 'var(--success)' }} />
-                    <div style={{ fontSize: '12px' }}>
+                    <Check size={14} style={{ color: 'var(--success)', marginTop: '2px' }} />
+                    <div style={{ fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
                       <div style={{ fontWeight: 'bold', color: 'var(--success)' }}>Transaction Dispatched Successfully</div>
-                      <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '2px', wordBreak: 'break-all' }}>
+                      <div style={{ color: 'var(--text-muted)', fontSize: '11px', wordBreak: 'break-all' }}>
                         Tx Hash: {msg.txSuccess.hash}
                       </div>
+                      <a 
+                        href={`https://testnet.arcscan.app/tx/${msg.txSuccess.hash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ 
+                          color: 'var(--accent)', 
+                          textDecoration: 'underline', 
+                          fontSize: '12px', 
+                          display: 'inline-flex', 
+                          alignItems: 'center', 
+                          gap: '4px', 
+                          marginTop: '4px', 
+                          fontWeight: 'bold' 
+                        }}
+                      >
+                        <span>[Verify on ArcScan Explorer]</span>
+                        <ExternalLink size={12} />
+                      </a>
                     </div>
                   </div>
                 )}
