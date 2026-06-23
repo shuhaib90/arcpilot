@@ -178,7 +178,11 @@ export default function LoginPage() {
         </div>
         <div className="terminal-body">
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <Terminal size={32} style={{ color: 'var(--accent)', marginBottom: '8px' }} />
+            <img 
+              src="/logo.png" 
+              alt="ARCPILOT Logo" 
+              style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '8px', display: 'inline-block' }} 
+            />
             <h2 style={{ fontSize: '18px', fontWeight: 'bold' }}>Connect to ArcPilot Node</h2>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Secure ownership linked to your recovery wallet.</p>
           </div>

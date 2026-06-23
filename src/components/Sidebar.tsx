@@ -29,7 +29,11 @@ export default function Sidebar() {
         <div className="sidebar-header">
           <Link href="/">
             <div className="sidebar-logo">
-              <Terminal size={20} />
+              <img 
+                src="/logo.png" 
+                alt="ARCPILOT" 
+                style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+              />
               <span>ARCPILOT</span>
             </div>
           </Link>
@@ -74,7 +78,11 @@ export default function Sidebar() {
         <div className="sidebar-header">
           <Link href="/chat">
             <div className="sidebar-logo">
-              <Terminal size={20} />
+              <img 
+                src="/logo.png" 
+                alt="ARCPILOT" 
+                style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+              />
               <span>ARCPILOT</span>
             </div>
           </Link>

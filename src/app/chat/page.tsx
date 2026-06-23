@@ -485,8 +485,40 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Messages viewport */}
-      <div style={{ flexGrow: 1, padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* Messages viewport container */}
+      <div style={{ flexGrow: 1, position: 'relative', overflow: 'hidden' }}>
+        {/* Background Watermark logo */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '350px',
+          height: '350px',
+          backgroundImage: 'url(/logo.png)',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
+          opacity: 0.04,
+          pointerEvents: 'none',
+          mixBlendMode: 'color-dodge',
+          zIndex: 0
+        }} />
+
+        {/* Scrollable messages viewport */}
+        <div style={{ 
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          padding: '24px', 
+          overflowY: 'auto', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '24px',
+          zIndex: 1
+        }}>
         {messages.map((msg) => (
           <div 
             key={msg.id} 
@@ -635,6 +667,7 @@ export default function ChatPage() {
         )}
         <div ref={messagesEndRef} />
       </div>
+    </div>
 
       {/* Suggestion tags */}
       <div style={{ padding: '0 24px', display: 'flex', gap: '8px', overflowX: 'auto', flexShrink: 0, paddingBottom: '8px' }}>
