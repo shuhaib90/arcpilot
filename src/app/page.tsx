@@ -5,21 +5,136 @@ import Link from 'next/link';
 import { Terminal, ArrowRight, Shield, Zap, Sparkles } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
+const LETTER_GRIDS: Record<string, number[][]> = {
+  A: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1]
+  ],
+  R: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+    [1, 0, 1, 0],
+    [1, 0, 0, 1]
+  ],
+  C: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 1, 1, 1]
+  ],
+  P: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0]
+  ],
+  I: [
+    [1, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1]
+  ],
+  L: [
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 1, 1, 1]
+  ],
+  O: [
+    [1, 1, 1, 1],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1]
+  ],
+  T: [
+    [1, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0]
+  ],
+  ' ': [
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0]
+  ]
+};
+
+function BlockLetter({ letter }: { letter: string }) {
+  const grid = LETTER_GRIDS[letter] || LETTER_GRIDS[' '];
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+  
+  return (
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateRows: `repeat(${numRows}, 10px)`,
+      gridTemplateColumns: `repeat(${numCols}, 10px)`,
+      gap: '0px',
+      marginRight: '8px'
+    }}>
+      {grid.map((row, rIdx) => 
+        row.map((cell, cIdx) => (
+          <div 
+            key={`${rIdx}-${cIdx}`} 
+            style={{
+              width: '10px',
+              height: '10px',
+              backgroundColor: cell === 1 ? 'var(--accent)' : 'transparent',
+              border: cell === 1 ? '1px solid var(--background)' : 'none',
+              boxShadow: cell === 1 ? '0 0 0 1px var(--accent)' : 'none',
+            }}
+          />
+        ))
+      )}
+    </div>
+  );
+}
+
+function BlockText({ text }: { text: string }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      {text.split('').map((char, idx) => (
+        <BlockLetter key={idx} letter={char.toUpperCase()} />
+      ))}
+    </div>
+  );
+}
+
 export default function LandingPage() {
   const { user } = useApp();
 
   return (
-    <div style={{ maxWidth: '800px', margin: '80px auto', padding: '0 24px' }}>
+    <div style={{ maxWidth: '800px', margin: '60px auto', padding: '0 24px' }}>
       {/* Hero Header */}
       <header style={{ textAlign: 'center', marginBottom: '60px' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', fontWeight: 'bold', fontSize: '14px', letterSpacing: '2px', marginBottom: '16px', textTransform: 'uppercase' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', fontWeight: 'bold', fontSize: '14px', letterSpacing: '2px', marginBottom: '24px', textTransform: 'uppercase' }}>
           <Sparkles size={16} />
           <span>Next-Gen Crypto Interface</span>
         </div>
-        <h1 style={{ fontSize: '48px', fontWeight: 'bold', letterSpacing: '-1px', marginBottom: '20px', lineHeight: 1.1 }}>
-          Your AI Co-Pilot For Arc
-        </h1>
-        <p style={{ fontSize: '18px', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
+        
+        {/* CLI Block Header */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
+          <BlockText text="ARC" />
+          <BlockText text="PILOT" />
+        </div>
+
+        <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--foreground)', letterSpacing: '1px', marginBottom: '16px', textTransform: 'uppercase', fontFamily: 'monospace' }}>
+          // Your AI Co-Pilot For Arc
+        </h2>
+        
+        <p style={{ fontSize: '16px', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
           Send payments, manage assets, and control your crypto using natural language.
         </p>
       </header>
