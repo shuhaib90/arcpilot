@@ -32,7 +32,7 @@ export default function Sidebar() {
               <img 
                 src="/logo.png" 
                 alt="ARCPILOT" 
-                style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+                style={{ width: '32px', height: '32px', objectFit: 'contain' }} 
               />
               <span>ARCPILOT</span>
             </div>
@@ -81,7 +81,7 @@ export default function Sidebar() {
               <img 
                 src="/logo.png" 
                 alt="ARCPILOT" 
-                style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+                style={{ width: '32px', height: '32px', objectFit: 'contain' }} 
               />
               <span>ARCPILOT</span>
             </div>
