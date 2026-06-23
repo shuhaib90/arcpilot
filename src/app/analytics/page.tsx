@@ -30,7 +30,11 @@ export default function AnalyticsPage() {
       router.push('/login');
     } else {
       const loadStats = async () => {
-        const txs = await dbService.getTransactionsByUsernameOrAddress(user.username, 100);
+        const rawTxs = await dbService.getTransactionsByUsernameOrAddress(user.username, 100);
+        const txs = rawTxs.map(t => ({
+          ...t,
+          amount: typeof t.amount === 'string' ? parseFloat(t.amount) : t.amount
+        }));
         
         const sent = txs.filter(t => t.sender.toLowerCase() === `@${user.username.toLowerCase()}`);
         const received = txs.filter(t => t.receiver.toLowerCase() === `@${user.username.toLowerCase()}`);

@@ -20,7 +20,11 @@ export default function TransactionsPage() {
     if (!user) return;
     setRefreshing(true);
     const data = await dbService.getTransactionsByUsernameOrAddress(user.username, 50);
-    setTxs(data);
+    const parsedData = data.map(t => ({
+      ...t,
+      amount: typeof t.amount === 'string' ? parseFloat(t.amount) : t.amount
+    }));
+    setTxs(parsedData);
     setRefreshing(false);
   };
 

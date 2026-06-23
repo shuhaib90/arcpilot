@@ -209,23 +209,45 @@ export const dbService = {
   },
 
   async getTransactionsByUsernameOrAddress(identifier: string, limit = 10): Promise<Transaction[]> {
-    const cleanId = identifier.toLowerCase();
+    const cleanId = identifier.startsWith('@') ? identifier.slice(1).toLowerCase() : identifier.toLowerCase();
     
+    // Build list of matching terms
+    const terms = [cleanId, `@${cleanId}`];
+    
+    // 1. Resolve user info if it's a user
+    const targetUser = await dbService.getUserByUsername(cleanId);
+    if (targetUser) {
+      if (targetUser.wallet_address) terms.push(targetUser.wallet_address.toLowerCase());
+      if (targetUser.recovery_wallet) terms.push(targetUser.recovery_wallet.toLowerCase());
+    }
+    
+    // 2. Resolve team info if it's a team
+    const isTeam = cleanId.startsWith('team-');
+    const teamName = isTeam ? cleanId.slice(5) : cleanId;
+    const targetTeam = await dbService.getTeamByName(teamName);
+    if (targetTeam) {
+      terms.push(`@team-${teamName}`);
+      terms.push(`@team-${teamName.toLowerCase()}`);
+      if (targetTeam.wallet_address) terms.push(targetTeam.wallet_address.toLowerCase());
+    }
+
     if (supabase) {
+      // Build PostgREST OR filter: sender.eq.term1,receiver.eq.term1,sender.eq.term2,receiver.eq.term2,...
+      const orFilter = terms.map(term => `sender.eq.${term},receiver.eq.${term}`).join(',');
+      
       const { data, error } = await supabase
         .from('transactions')
         .select('*')
-        .or(`sender.eq.${cleanId},receiver.eq.${cleanId}`)
+        .or(orFilter)
         .order('created_at', { ascending: false })
         .limit(limit);
       if (!error && data) return data as Transaction[];
+      if (error) console.error('Supabase getTransactionsByUsernameOrAddress error:', error.message);
     }
 
     const txs = mockDB.transactions.filter(
-      t => t.sender.toLowerCase() === cleanId || 
-           t.receiver.toLowerCase() === cleanId ||
-           t.sender.toLowerCase() === '@' + cleanId ||
-           t.receiver.toLowerCase() === '@' + cleanId
+      t => terms.includes(t.sender.toLowerCase()) || 
+           terms.includes(t.receiver.toLowerCase())
     );
     return txs.slice(0, limit);
   },
